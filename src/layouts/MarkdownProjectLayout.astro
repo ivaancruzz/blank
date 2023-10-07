@@ -1,0 +1,16 @@
+---
+import Layout from "./Layout.astro"
+import type { Project } from "../types/types"
+import ProjectPreview from "../components/home/ProjectPreview.svelte"
+
+const { frontmatter } = Astro.props
+const project = frontmatter as Project
+---
+
+<Layout>
+  <ProjectPreview project={project} client:only="svelte">
+    <div class="prose lg:prose-xl dark:prose-invert">
+      <slot />
+    </div>
+  </ProjectPreview>
+</Layout>

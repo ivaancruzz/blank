@@ -1,0 +1,107 @@
+---
+import "@fontsource-variable/alexandria"
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alexandria:wght@200;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/uicons-brands/css/uicons-brands.css"
+    />
+    <script is:inline>
+      const theme = (() => {
+        if (
+          typeof sessionStorage !== "undefined" &&
+          sessionStorage.getItem("theme")
+        )
+          return sessionStorage.getItem("theme")
+
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark"
+        }
+        return "light"
+      })()
+
+      if (theme === "light") {
+        document.documentElement.classList.remove("dark")
+      } else {
+        document.documentElement.classList.add("dark")
+      }
+
+      window.sessionStorage.setItem("theme", theme)
+    </script>
+  </head>
+  <body data-theme="custom-theme">
+    <div class="md:w-5/12 mx-auto pt-5 pb-10">
+      <slot />
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  @import "@splidejs/svelte-splide/css";
+
+  :root {
+    --primary-color: #087a87;
+    --black-color: #172021;
+    --muted-color: #b1b1b1;
+    --light-color: #f6f6f6;
+  }
+
+  html,
+  body {
+    background-color: var(--light-color);
+  }
+
+  body {
+    min-height: 100vh;
+    transition:
+      background-color 0.2s ease-in-out,
+      color 0.2s ease-in-out;
+    @apply bg-surface-500 dark:bg-secondary-500 text-secondary-500 dark:text-white;
+  }
+
+  .card-content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .card-content-static {
+    background-color: white;
+    min-height: 150px;
+    min-width: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

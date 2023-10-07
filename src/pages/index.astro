@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro"
+import Me from "../components/home/Me.svelte"
+import Projects from "../components/home/Projects.svelte"
+import type { Project } from "../types/types"
+import Experiences from "../components/home/Experiences.svelte"
+import Opinions from "../components/home/Opinions.svelte"
+import ThemeSwitch from "../components/ThemeSwitch.svelte"
+
+const allProjects = await Astro.glob("../pages/projects/*.md")
+const allExperiences = await Astro.glob("../pages/experiences/*.md")
+---
+
+<Layout>
+  <!-- Header-->
+  <div class="flex justify-end gap-4 text-primary mb-2">
+    <button
+      type="button"
+      class="btn-icon bg-white dark:bg-zinc-900 dark:text-white"
+      ><i class="fi fi-rr-earth-americas" style="font-size: 20px;"></i></button
+    >
+    <ThemeSwitch client:only />
+  </div>
+
+  <div class="flex flex-col gap-10">
+    <Me client:only="svelte" />
+    <div class="grid grid-cols-2 gap-10">
+      <Projects projects={allProjects} client:only="svelte" />
+      <Experiences projects={allExperiences} client:only="svelte" />
+    </div>
+    <Opinions client:load />
+  </div>
+</Layout>
