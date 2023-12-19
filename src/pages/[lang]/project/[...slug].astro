@@ -1,0 +1,31 @@
+---
+import { getEntryBySlug } from "astro:content"
+import ProjectPreview from "../../../components/home/ProjectPreview.svelte"
+import type { Project } from "../../../types/types"
+import Layout from "../../../layouts/Layout.astro"
+import type { ui } from "../../../i18n/ui"
+
+export const prerender = false
+
+const { lang, slug } = Astro.params as {
+  lang: keyof typeof ui
+  slug: string | undefined
+}
+const page = await getEntryBySlug("project", `${lang}/${slug}`)
+
+if (!page) {
+  return Astro.redirect(`/${lang}/404`)
+}
+
+const { Content } = await page.render()
+const project = page.data as Project
+console.log(project)
+---
+
+<Layout>
+  <ProjectPreview project={project} client:only lang={lang}>
+    <div class="prose lg:prose-xl dark:prose-invert">
+      <Content />
+    </div>
+  </ProjectPreview>
+</Layout>

@@ -1,16 +1,18 @@
-<script>
+<script lang="ts">
+  import type { ui } from "../../i18n/ui"
+  import { useTranslations } from "../../i18n/utils"
+
   // import img from '$lib/images/me.jpg';
   let isExpanded = false
+  export let lang: keyof typeof ui
 
   function toggleExpand() {
     isExpanded = !isExpanded
   }
+  const t = useTranslations(lang)
 </script>
 
-<div
-  class="card-content dark:bg-zinc-900 rounded-lg p-4 relative"
-  style="margin-top: 40px;"
->
+<div class="card-content dark:bg-zinc-900 rounded-lg p-4 relative">
   <div class="avatar">
     <img src={""} class="object-center" alt="" />
   </div>
@@ -22,29 +24,11 @@
       Lorem Ipsum
     </div>
     <p
-      class={`md:text-md-subtitle-h5 text-center  ${
+      class={`md:text-md-subtitle-h5 text-center whitespace-pre-wrap  ${
         isExpanded ? "" : "line-clamp-3"
       }`}
     >
-      🚀 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium
-      enim a est porttitor, vel ornare erat auctor. Vivamus fringilla, arcu quis
-      ullamcorper lacinia, massa urna porttitor
-      <br /><br />
-      🎓 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium enim
-      a est porttitor, vel ornare erat auctor. Vivamus fringilla, arcu quis ullamcorper
-      lacinia, massa urna porttitor
-      <br /><br />
-      💼 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium enim
-      a est porttitor, vel ornare erat auctor. Vivamus fringilla, arcu quis ullamcorper
-      lacinia, massa urna porttitor
-      <br /><br />
-      💡 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium enim
-      a est porttitor, vel ornare erat auctor. Vivamus fringilla, arcu quis ullamcorper
-      lacinia, massa urna porttitor
-      <br /><br />
-      🤝 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pretium enim
-      a est porttitor, vel ornare erat auctor. Vivamus fringilla, arcu quis ullamcorper
-      lacinia, massa urna porttitor
+      {t("me.description")}
     </p>
     <div class="text-end text-primary">
       <!-- svelte-ignore a11y-interactive-supports-focus -->
@@ -52,9 +36,9 @@
       <!-- svelte-ignore a11y-missing-attribute -->
       <a role="button" on:click={toggleExpand}>
         {#if isExpanded}
-          Ocultar
+          {t("me.more_hide")}
         {:else}
-          Leer más
+          {t("me.more")}
         {/if}
       </a>
     </div>

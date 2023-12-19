@@ -1,8 +1,15 @@
 ---
 import "@fontsource-variable/alexandria"
+import { getLangFromUrl, useTranslations } from "../i18n/utils"
+import InitializeSkeleton from "../components/InitializeSkeleton.svelte"
+import SendEmail from "../components/ButtonSendEmail.svelte"
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+const { class: className } = Astro.props
 ---
 
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -49,59 +56,122 @@ import "@fontsource-variable/alexandria"
     </script>
   </head>
   <body data-theme="custom-theme">
-    <div class="md:w-5/12 mx-auto pt-5 pb-10">
-      <slot />
+    <div
+      class="md:w-5/12 mx-auto flex justify-between flex-col px-5"
+      style="min-height: 100vh;"
+      class:list={className}
+    >
+      <InitializeSkeleton client:load>
+        <div class="grow">
+          <slot />
+        </div>
+        <footer class="text-center flex flex-col justify-center gap-10 mt-40">
+          <div class="flex gap-8 justify-center">
+            <a
+              target="_blank"
+              href="https://www.linkedin.com/in/ivaancruzz/"
+              role="button"
+              class="btn-icon flex items-center justify-center bg-primary-500 dark:bg-zinc-900 text-white dark:text-primary-500"
+            >
+              <i class="fi fi-brands-linkedin" style="font-size: 21px;"></i>
+            </a>
+            <a
+              target="_blank"
+              href="https://github.com/ivaancruzz"
+              role="button"
+              class="btn-icon flex items-center justify-center bg-primary-500 dark:bg-zinc-900 text-white dark:text-primary-500"
+            >
+              <i class="fi fi-brands-github" style="font-size: 21px;"></i>
+            </a>
+            <SendEmail client:only {lang} />
+          </div>
+
+          <div class="md:text-md-subtitle-h5 text-gray-500">
+            {t("footer.message")}
+          </div>
+        </footer>
+      </InitializeSkeleton>
     </div>
   </body>
+
+  <style is:global>
+    @import "@splidejs/svelte-splide/css";
+
+    :root {
+      --primary-color: #087a87;
+      --black-color: #172021;
+      --muted-color: #b1b1b1;
+      --light-color: #f6f6f6;
+    }
+
+    html {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      background-color: var(--light-color);
+    }
+
+    body {
+      min-height: 100vh;
+      transition:
+        background-color 0.2s ease-in-out,
+        color 0.2s ease-in-out;
+      @apply bg-surface-500 dark:bg-secondary-500 text-secondary-500 dark:text-white;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+    }
+
+    body.modal-open {
+      overflow-y: hidden;
+    }
+
+    .card-content {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .card-content-static {
+      background-color: white;
+      min-height: 150px;
+      min-width: 150px;
+      max-width: 150px;
+      max-height: 150px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    i {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .snackbar-wrapper {
+      height: fit-content;
+      width: fit-content;
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 20px;
+    }
+  </style>
 </html>
-
-<style is:global>
-  @import "@splidejs/svelte-splide/css";
-
-  :root {
-    --primary-color: #087a87;
-    --black-color: #172021;
-    --muted-color: #b1b1b1;
-    --light-color: #f6f6f6;
-  }
-
-  html,
-  body {
-    background-color: var(--light-color);
-  }
-
-  body {
-    min-height: 100vh;
-    transition:
-      background-color 0.2s ease-in-out,
-      color 0.2s ease-in-out;
-    @apply bg-surface-500 dark:bg-secondary-500 text-secondary-500 dark:text-white;
-  }
-
-  .card-content {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-  }
-
-  .card-content-static {
-    background-color: white;
-    min-height: 150px;
-    min-width: 150px;
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  i {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-</style>

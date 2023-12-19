@@ -5,8 +5,8 @@ export type Experience = {
 }
 
 export type Project = {
-  path: string
   name: string
+  subtitle?: string
   logo: Logo
   images: string[]
   state: string
@@ -18,10 +18,15 @@ export type Opinion = {
   picture: string
   name: string
   linkedin: string
-  description: string
+  description: Lang
 }
 
 type Logo = {
   url: string
   alt: string
+}
+
+type Lang = {
+  es: string
+  en: string
 }

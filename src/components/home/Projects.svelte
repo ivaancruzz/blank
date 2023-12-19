@@ -1,7 +1,15 @@
 <script lang="ts">
   import { Splide, SplideSlide } from "@splidejs/svelte-splide"
+  import { useTranslations } from "../../i18n/utils"
+  import type { ui } from "../../i18n/ui"
 
   export let projects: any
+  export let lang: keyof typeof ui
+  const t = useTranslations(lang)
+
+  function getSlug(slug: string) {
+    return slug.split("/")[1]
+  }
 </script>
 
 <div class="flex flex-col gap-5">
@@ -9,7 +17,7 @@
     class="md:text-md-subtitle-h3 flex gap-2 items-center text-black dark:text-white"
   >
     <i class="fi fi-sr-fire-flame-curved flex items-center text-primary-500" />
-    Proyectos
+    {t("project.title")}
   </h3>
 
   <Splide
@@ -26,15 +34,14 @@
   >
     {#each projects as project}
       <SplideSlide>
-        <a href={project.url}>
+        <a href={`/${lang}/project/${getSlug(project.slug)}`}>
           <div class="card-content-static dark:bg-zinc-900 p-2">
             <div class="logo">
               <img src="" class="object-center" alt="" />
             </div>
 
-            <div class="text-md-subtitle-h5 line-clamp-2 text-center">
-              {project.frontmatter.name}
-            </div>
+            <div class="text-md-subtitle-h5 line-clamp-2 text-center" />
+            {project.data.name}
           </div>
         </a>
       </SplideSlide>

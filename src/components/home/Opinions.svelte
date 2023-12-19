@@ -1,14 +1,11 @@
 <script lang="ts">
   import { Splide, SplideSlide, SplideTrack } from "@splidejs/svelte-splide"
   import { OPINIONS } from "../../data/opinions"
-  import type { ModalSettings, PopupSettings } from "@skeletonlabs/skeleton"
-  import type { EventDetail } from "@splidejs/svelte-splide/types"
+  import { useTranslations } from "../../i18n/utils"
+  import type { ui } from "../../i18n/ui"
 
-  let isPaused = true
-
-  function handlePlay() {
-    isPaused = !isPaused
-  }
+  export let lang: keyof typeof ui
+  const t = useTranslations(lang)
 </script>
 
 <Splide
@@ -19,6 +16,7 @@
     arrows: false,
     pagination: false,
     perPage: 1,
+    gap: 10,
     flickPower: 1,
     rewind: false,
     autoplay: true,
@@ -29,16 +27,16 @@
       class="flex-1 md:text-md-subtitle-h3 flex gap-2 items-center text-black dark:text-white"
     >
       <i class="fi fi-sr-heart flex items-center text-primary-500" />
-      Opiniones
+      {t("opinion.title")}
     </h3>
-    <button class="splide__toggle" type="button">
+    <div class="splide__toggle">
       <span class="splide__toggle__play text-primary-500">
         <i class="fi fi-sr-play" />
       </span>
       <span class="splide__toggle__pause text-primary-500">
         <i class="fi fi-sr-pause" />
       </span>
-    </button>
+    </div>
   </div>
 
   <SplideTrack>
@@ -46,7 +44,9 @@
       <SplideSlide>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div class="flex gap-3 p-4 rounded-lg h-full">
+        <div
+          class="card-content dark:bg-zinc-900 flex gap-3 p-4 rounded-lg h-full"
+        >
           <div class="flex flex-col items-center gap-4">
             <div class="logo">
               <img src="" class="object-center" alt="" />
@@ -57,17 +57,13 @@
           <div class="flex flex-col gap-2">
             <h5 class="text-md-subtitle-h5 text-primary">{opinion.name}</h5>
             <div class="text-md-subtitle-h6 line-clamp-5">
-              {opinion.description}
+              {opinion.description[lang]}
             </div>
           </div>
         </div>
       </SplideSlide>
     {/each}
   </SplideTrack>
-
-  <div class="splide__progress">
-    <div class="splide__progress__bar" />
-  </div>
 </Splide>
 
 <style>

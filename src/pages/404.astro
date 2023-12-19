@@ -1,0 +1,11 @@
+---
+import NotFound from "../components/NotFound.svelte"
+import type { ui } from "../i18n/ui"
+// import { useTranslations } from "../i18n/utils"
+
+import Layout from "../layouts/Layout.astro"
+---
+
+<Layout class="h-screen">
+  <NotFound client:only />
+</Layout>

@@ -1,4 +1,10 @@
 <script lang="ts">
+  import { popup, type PopupSettings } from "@skeletonlabs/skeleton"
+  import { useTranslations } from "../i18n/utils"
+  import type { ui } from "../i18n/ui"
+  export let lang: keyof typeof ui
+
+  const t = useTranslations(lang)
   let darkMode = window.sessionStorage.getItem("theme") == "dark" ?? true
 
   function handleSwitchDarkMode() {

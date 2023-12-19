@@ -1,0 +1,30 @@
+---
+import { getEntryBySlug } from "astro:content"
+import type { Experience } from "../../../types/types"
+import Layout from "../../../layouts/Layout.astro"
+import ExperiencePreview from "../../../components/home/ExperiencePreview.svelte"
+import type { ui } from "../../../i18n/ui"
+
+export const prerender = false
+
+const { lang, slug } = Astro.params as {
+  lang: keyof typeof ui
+  slug: string | undefined
+}
+const page = await getEntryBySlug("experience", `${lang}/${slug}`)
+
+if (!page || !lang) {
+  return Astro.redirect(`/${lang}/404`)
+}
+
+const { Content } = await page.render()
+const experience = page.data as Experience
+---
+
+<Layout>
+  <ExperiencePreview experience={experience} client:only lang={lang}>
+    <div class="prose lg:prose-xl dark:prose-invert">
+      <Content />
+    </div>
+  </ExperiencePreview>
+</Layout>

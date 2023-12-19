@@ -1,15 +1,20 @@
 <script lang="ts">
   import { Splide, SplideSlide } from "@splidejs/svelte-splide"
   import type { Project } from "../../types/types"
-  import ThemeSwitch from "../ThemeSwitch.svelte"
+  import ButtonThemeSwitch from "../ButtonThemeSwitch.svelte"
+  import type { ui } from "../../i18n/ui"
+  import ButtonLanguageSwitch from "../ButtonLanguageSwitch.svelte"
 
   export let project: Project
+  export let lang: keyof typeof ui
 </script>
 
 <!-- Header-->
-<div class="flex justify-between items-center text-primary mb-2">
+<div
+  class="flex justify-between items-center text-primary mb-2 sticky top-0 bg-surface-500 dark:bg-secondary-500 z-50 py-3 rounded-ee-lg rounded-es-lg"
+>
   <a
-    href="/"
+    href={`/${lang}`}
     type="button"
     class="btn-icon bg-white dark:bg-zinc-900 dark:text-white"
   >
@@ -17,12 +22,8 @@
   >
 
   <div class="flex gap-4">
-    <button
-      type="button"
-      class="btn-icon bg-white dark:bg-zinc-900 dark:text-white"
-      ><i class="fi fi-rr-earth-americas" style="font-size: 20px;" /></button
-    >
-    <ThemeSwitch />
+    <ButtonLanguageSwitch {lang} />
+    <ButtonThemeSwitch {lang} />
   </div>
 </div>
 <div class="flex flex-col gap-9" style="margin-top: 40px;">
@@ -35,6 +36,9 @@
       <div class="md:text-md-h3 text-primary-500 dark:text-white">
         {project.name}
       </div>
+      {#if project.subtitle}
+        <small>{project.subtitle}</small>
+      {/if}
       <div class="flex gap-2">
         {#each project.technologies as techonlogy}
           <span class="badge variant-soft-primary font-normal"
@@ -55,6 +59,7 @@
       flickPower: 1,
       autoWidth: true,
       rewind: false,
+      pagination: false,
     }}
   >
     {#each project.images as image}

@@ -1,22 +1,25 @@
 <script lang="ts">
   import { Splide, SplideSlide } from "@splidejs/svelte-splide"
   import type { Experience } from "../../types/types"
-  import ThemeSwitch from "../ThemeSwitch.svelte"
+  import ThemeSwitch from "../ButtonThemeSwitch.svelte"
+  import type { ui } from "../../i18n/ui"
+  import LanguageSwitch from "../ButtonLanguageSwitch.svelte"
 
   export let experience: Experience
+  export let lang: keyof typeof ui
 </script>
 
 <!-- Header-->
-<div class="flex justify-between items-center text-primary mb-2">
-  <a href="/" type="button" class="btn-icon bg-white dark:bg-zinc-900">
+<div
+  class="flex justify-between items-center text-primary mb-2 sticky top-0 bg-surface-500 dark:bg-secondary-500 z-50 py-3 rounded-ee-lg rounded-es-lg"
+>
+  <a href={`/${lang}`} type="button" class="btn-icon bg-white dark:bg-zinc-900">
     <i class="fi fi-rr-arrow-small-left" style="font-size: 20px;" /></a
   >
 
   <div class="flex gap-4">
-    <button type="button" class="btn-icon bg-white dark:bg-zinc-900"
-      ><i class="fi fi-rr-earth-americas" style="font-size: 20px;" /></button
-    >
-    <ThemeSwitch />
+    <LanguageSwitch {lang} />
+    <ThemeSwitch {lang} />
   </div>
 </div>
 <div class="flex flex-col gap-9" style="margin-top: 40px;">

@@ -1,0 +1,41 @@
+---
+import Layout from "../../layouts/Layout.astro"
+import Me from "../../components/home/Me.svelte"
+import Projects from "../../components/home/Projects.svelte"
+import type { Project } from "../../types/types"
+import Experiences from "../../components/home/Experiences.svelte"
+import Opinions from "../../components/home/Opinions.svelte"
+import ButtonThemeSwitch from "../../components/ButtonThemeSwitch.svelte"
+import { getCollection } from "astro:content"
+import { getLangFromUrl, useTranslations } from "../../i18n/utils"
+import LanguageSwitch from "../../components/ButtonLanguageSwitch.svelte"
+import InitializeSvelte from "../../components/InitializeSkeleton.svelte"
+
+const collectionProjects = await getCollection("project", (entry) =>
+  entry.id.startsWith("es/")
+)
+const collectionExperiences = await getCollection("experience", (entry) =>
+  entry.id.startsWith("es/")
+)
+---
+
+<Layout>
+  <!-- Header-->
+  <div class="flex justify-end gap-4 text-primary mb-20">
+    <LanguageSwitch client:only="svelte" lang="es" />
+    <ButtonThemeSwitch client:only="svelte" lang="es" />
+  </div>
+
+  <div class="flex flex-col gap-10">
+    <Me client:only="svelte" lang="es" />
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+      <Projects projects={collectionProjects} client:only="svelte" lang="es" />
+      <Experiences
+        experiences={collectionExperiences}
+        client:only="svelte"
+        lang="es"
+      />
+    </div>
+    <Opinions client:load lang="es" />
+  </div>
+</Layout>
